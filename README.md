@@ -22,6 +22,20 @@ brasa asks: what if the VMM spoke the same language as everything around it? Wha
 
 This is not an argument that Go is "better" than Rust for VMM code. The rust-vmm ecosystem is excellent. But there's value in a VMM that the existing Go infrastructure community can understand, audit, and extend — without learning a second language and its toolchain.
 
+### Why not contribute to gokvm?
+
+[gokvm](https://github.com/bobuhiro11/gokvm) is an excellent project and a direct inspiration for brasa. If you want to understand how KVM works from Go, gokvm is the best starting point — and brasa's KVM layer owes a lot to what bobuhiro11 built.
+
+But gokvm and brasa have different goals:
+
+**gokvm is educational.** It was built to demonstrate how to use the KVM API from userland, and it does that beautifully in ~1.5k lines. Its author describes it as "experimental" and "not for production use." The device emulation is intentionally naive, the architecture is single-file-friendly, and the scope is deliberately small. That's a feature, not a limitation — it's what makes gokvm a great learning tool.
+
+**brasa is operational.** The goal is a VMM that can actually run container workloads behind Kata Containers. That means a different set of priorities: a modular package structure that separates KVM, boot, and device layers; a virtio implementation that handles real guest drivers (not just proof-of-concept); vsock support for host↔guest communication; and an integration path with the container runtime ecosystem.
+
+Trying to bend gokvm into this would mean rewriting most of it while fighting against design decisions that were right for its original purpose. A clean start with a different architecture is more respectful to both projects than a fork that replaces everything.
+
+brasa wouldn't exist without gokvm. If you're learning KVM from Go, start there.
+
 ## Status
 
 🚧 **Early development** — not ready for production use.
